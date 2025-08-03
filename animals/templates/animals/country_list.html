@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Guessing countries</h1>
+    <div class="row text-center mt-5">
+        {% for country in countries %}
+        <div class="col mb-4">
+            <div class="card mx-auto" style="width: 14rem;">
+                <img src="{{ country.image_url }}" class="card-img-top object-fit-cover" alt="{{ country.name }}" style="height: 150px; width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ country.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ country.french_name }}</h6>
+    
+                    <!-- Summary preview -->
+                    {% with unique_id="summary_"|add:country.wikidata_id|stringformat:"s" %}
+                    <p class="card-text">
+                        <span id="{{ unique_id }}_short">
+                            {{ country.summary|truncatechars:50 }}
+                            {% if country.summary|length > 50 %}
+                            <a href="javascript:void(0)" onclick="toggleSummary('{{ unique_id }}')">Read More</a>
+                            {% endif %}
+                        </span>
+                        <span id="{{ unique_id }}_full" style="display: none;">
+                            {{ country.summary }}
+                            <a href="javascript:void(0)" onclick="toggleSummary('{{ unique_id }}', true)">Read Less</a>
+                        </span>
+                    </p>
+                    {% endwith %}
+    
+                    <p><i>{{ country.scientific_name }}</i></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        function toggleSummary(id, reverse = false) {
+            const shortEl = document.getElementById(id + '_short');
+            const fullEl = document.getElementById(id + '_full');
+            if (reverse) {
+                shortEl.style.display = 'inline';
+                fullEl.style.display = 'none';
+            } else {
+                shortEl.style.display = 'none';
+                fullEl.style.display = 'inline';
+            }
+        }
+    </script>
+{% endblock %}

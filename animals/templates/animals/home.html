@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center">
+    <h1 class="display-4 brand-font">Welcome to Say's guessing games</h1>
+    <!--p class="lead mt-3">Empowering families with simple digital tools.</p-->
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Guessing Animals</h5>
+          <p class="card-text">Learn more about the animals.</p>
+          <a href="{% url 'animal_list' %}" class="btn btn-outline-primary">Play</a>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Guessing Countries</h5>
+          <p class="card-text">Discover the countries all over the world</p>
+          <a href="{% url 'country_list' %}" class="btn btn-outline-primary">Play</a>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
