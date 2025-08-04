@@ -19,3 +19,43 @@ pip install django-extensions
   python manage.py runserver_plus 0.0.0.0:8002 --cert certs/dev
 
   python manage.py runserver_plus --cert certs/dev
+
+
+
+gunicorn guessing.wsgi:application --bind 0.0.0.0:8003
+
+sudo nano /etc/systemd/system/fgg.service
+
+
+[Unit]
+Description=Gunicorn daemon for Django app
+After=network.target
+
+[Service]
+User=tita
+Group=www-data
+WorkingDirectory=/home/tita/Documents/DEV/Guessing
+Environment="PATH=/home/tita/Documents/DEV/Guessing/venv/bin"
+ExecStart="/home/tita/Documents/DEV/Guessing/venv/bin/gunicorn" guessing.wsgi:application --bind 0.0.0.0:8003 \
+  --timeout 120 \
+  --access-logfile /var/log/fgg/access.log \
+  --error-logfile /var/log/fgg/error.log 
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable fgg.service
+
+sudo systemctl start fgg.service
+sudo systemctl status fgg.service
+
+sudo mkdir -p /var/log/fgg
+sudo chown -R tita:www-data /var/log/fgg
+
+sudo /etc/nginx/sites-available/fgg
+
+sudo ln -s /etc/nginx/sites-available/fgg /etc/nginx/sites-enabled/
