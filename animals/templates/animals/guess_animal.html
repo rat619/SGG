@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container text-center mt-5">
+    <h2>🐾 Guess the Animal!</h2>
+
+    {% if message %}
+    <div class="alert {% if correct %}alert-success{% else %}alert-danger{% endif %}">
+        {{ message }}
+    </div>
+
+        {% if correct %}
+            <a href="?next=1" class="btn btn-success mt-2">➡️ Next Animal</a>
+
+        {% endif %}
+    {% endif %}
+
+
+    <div class="card mx-auto mt-4" style="width: 18rem;">
+        <img src="{{ animal.image_url }}" class="card-img-top" alt="Animal" style="height: 180px; object-fit: cover;">  <!--filter: blur(5px);"-->
+        <div class="card-body">
+            <p class="card-text">
+                <strong>Clue:</strong><br>
+                {{ animal.scientific_name }}
+            </p>
+            <form method="post" id="guess-form">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" name="guess" class="form-control" id="guess-input" placeholder="Your guess..." value="{{ last_guess }}" required>
+                    <button type="button" class="btn btn-outline-secondary" onclick="startRecognition()">🎤</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function startRecognition() {
+        if (!('webkitSpeechRecognition' in window)) {
+            alert("Speech recognition is not supported in this browser.");
+            return;
+        }
+
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'fr-FR';  // Set this to 'fr-FR' for French, etc.
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+            const speechResult = event.results[0][0].transcript;
+            console.log("Recognized:", speechResult);
+            document.getElementById("guess-input").value = speechResult;
+            document.getElementById("guess-form").submit();
+        };
+
+        recognition.onerror = function(event) {
+            alert("Speech recognition error: " + event.error);
+        };
+    }
+     // Auto-load next animal after 20 seconds
+    /*setTimeout(() => {
+        window.location.href = "?next=1";
+    }, 20000);
+    */
+</script>
+{% endblock %}

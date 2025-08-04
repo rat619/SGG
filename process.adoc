@@ -1,6 +1,21 @@
 rm -rf venv
 python3 -m venv venv
 source venv/bin/activate
+python manage.py runserver 0.0.0.0:8002
 pip install django
 //pip freeze > requirements.txt
 //pip install -r requirements.txt
+
+
+mkdir certs
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout certs/dev.key -out certs/dev.crt \
+  -subj "/CN=localhost"
+
+pip install Werkzeug
+pip install pyOpenSSL
+pip install django-extensions
+
+  python manage.py runserver_plus 0.0.0.0:8002 --cert certs/dev
+
+  python manage.py runserver_plus --cert certs/dev

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SGG</title>
+  <title>FGG</title>
   <link rel="icon" type="image/x-icon" href="{% static 'animals/favicon.ico' %}">
   <link href="https://fonts.googleapis.com/css2?family=Rosario&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -38,18 +38,37 @@
 <body class="bg-light">
   <nav class="navbar navbar-expand-lg bg-primary-subtle py-5" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand brand-font fs-3" href="/">Say's Guessing Game</a>
+      <a class="navbar-brand brand-font fs-3" href="/">Family Guessing Game</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fs-5 mx-5">
-          <li class="nav-item ">
-            <a class="nav-link " href="{% url 'animal_list' %}">Animals</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Lists</a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="{% url 'animal_list' %}">Animals</a>
+              <li>
+              <li>
+                <a class="dropdown-item" href="{% url 'country_list' %}">Countries</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Games</a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="{% url 'guess_animal' %}">Animals</a>
+              <li>
+              <li>
+                <a class="dropdown-item" href="{% url 'guess_country' %}">Countries</a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item ">
-            <a class="nav-link " href="{% url 'country_list' %}">Countries</a>
+            <a class="nav-link " href="{% url 'admin:index' %}">Admin</a>
           </li>
         </ul>
       </div>

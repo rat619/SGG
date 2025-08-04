@@ -19,6 +19,10 @@ class Animal(models.Model):
     summary = models.TextField(blank=True, null=True)
     wikidata_id = models.CharField(max_length=20, unique=True)
 
+    class Meta:
+        verbose_name = "Animal"
+        verbose_name_plural = "Animals"
+
     def __str__(self):
         return self.name
     
@@ -30,6 +34,10 @@ class Country(models.Model):
     wikipedia_title = models.CharField(max_length=255, blank=True, null=True)
     summary = models.TextField(blank=True, null=True)
     wikidata_id = models.CharField(max_length=20, unique=True)
+
+    class Meta:
+        verbose_name = "Country"
+        verbose_name_plural = "Countries"
 
     def __str__(self):
         return self.name
