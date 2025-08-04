@@ -59,3 +59,9 @@ sudo chown -R tita:www-data /var/log/fgg
 sudo /etc/nginx/sites-available/fgg
 
 sudo ln -s /etc/nginx/sites-available/fgg /etc/nginx/sites-enabled/
+
+sudo systemctl enable nginx
+sudo systemctl enable fgg
+
+sudo ufw allow 8081
+sudo ufw enable
