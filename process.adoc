@@ -1,8 +1,9 @@
 rm -rf venv
 python3 -m venv venv
 source venv/bin/activate
-python manage.py runserver 0.0.0.0:8002
-pip install django
+pip install -r requirements.txt
+python manage.py runserver 0.0.0.0:8004
+//pip install django
 //pip freeze > requirements.txt
 //pip install -r requirements.txt
 
