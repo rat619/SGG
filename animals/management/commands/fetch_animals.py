@@ -47,7 +47,7 @@ class Command(BaseCommand):
     help = "Fetch animals using Wikidata Q-IDs and save them"
 
     def handle(self, *args, **options):
-        wikidata_ids = ["Q81214","Q140","Q186778","Q998685","Q190154","Q113297","Q179020","Q4504","Q41181","Q136842","Q402885","Q844643","Q30197","Q1750802", "Q7378"] 
+        wikidata_ids = ["Q81214","Q140","Q186778","Q998685","Q190154","Q113297","Q179020","Q4504","Q41181","Q136842","Q402885","Q844643","Q30197","Q1750802", "Q7378","Q2191516"] 
         Animal.objects.all().delete()  # clear existing data
         for wikidata_id in wikidata_ids:
             try:
