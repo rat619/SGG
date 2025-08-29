@@ -52,7 +52,21 @@ class Command(BaseCommand):
         for wikidata_id in wikidata_ids:
             try:
                 entity_url = f"https://www.wikidata.org/wiki/Special:EntityData/{wikidata_id}.json"
-                entity_data = requests.get(entity_url).json()
+
+                headers = {"User-Agent": "CountryFetcherBot/1.0 (thierry.fanahafa@gmail.com)"}
+
+                res = requests.get(entity_url, headers=headers)
+
+                if res.status_code != 200 or not res.text.strip():
+                    self.stderr.write(f"Empty or invalid response for {wikidata_id}. Status: {res.status_code}")
+                    continue
+
+                try:
+                    entity_data = res.json()
+                except ValueError as e:
+                    self.stderr.write(f"Invalid JSON for {wikidata_id}: {e}\nResponse: {res.text[:200]}")
+                    continue
+
                 entity = entity_data['entities'][wikidata_id]
                 labels = entity.get("labels", {})
                 claims = entity.get("claims", {})
