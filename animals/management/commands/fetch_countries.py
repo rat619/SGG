@@ -34,8 +34,11 @@ def get_capital_label(claims):
     if "P36" not in claims:
         return None
 
+    if "datavalue" not in claims["P36"][0]["mainsnak"]:
+        return None
+    
     capital_id = claims["P36"][0]["mainsnak"]["datavalue"]["value"]["id"]
-
+    #print(capital_id)
     # Fetch capital entity to get its English label
     url = f"https://www.wikidata.org/wiki/Special:EntityData/{capital_id}.json"
     res = requests.get(url)
@@ -46,10 +49,52 @@ def get_capital_label(claims):
     return None
 
 class Command(BaseCommand):
-    help = "Fetch animals using Wikidata Q-IDs and save them"
+    help = "Fetch countries using Wikidata Q-IDs and save them"
 
     def handle(self, *args, **options):
-        wikidata_ids = ["Q1019","Q142","Q29","Q159"] 
+        wikidata_ids = ["Q1019","Q142",
+                        "Q29",
+                        "Q159",
+                        "Q668",
+                        "Q36823",
+                        "Q16641",
+                        "Q30971",
+                        "Q33788",
+                        "Q34020",
+                        "Q35672",
+                        "Q16644",
+                        "Q26988",
+                        "Q36004",
+                        "Q31057",
+                        "Q31063",
+                        "Q16635",
+                        "Q686",
+                        "Q672",
+                        "Q678",
+                        "Q683",
+                        "Q691",
+                        "Q695",
+                        "Q664",
+                        "Q697",
+                        "Q702",
+                        "Q710",
+                        "Q685",
+                        "Q709",
+                        "Q712",
+                        "Q408",
+                        "Q14056",
+                        "Q25",
+                        "Q1246",
+                        "Q785",
+                        "Q26",
+                        "Q4628",
+                        "Q9676",
+                        "Q3111985",
+                        "Q1410",
+                        "Q22",
+                        "Q21",
+                        "Q5689"
+                        ] 
         Country.objects.all().delete()  # clear existing data
         for wikidata_id in wikidata_ids:
             try:
@@ -61,14 +106,14 @@ class Command(BaseCommand):
                 sitelinks = entity.get("sitelinks", {})
                 # Common name (English label)
                 name = labels.get("en", {}).get("value", f"Unknown-{wikidata_id}")
-
+                
                 french_name = labels.get("fr", {}).get("value", f"Unknown-{wikidata_id}")
 
                 capital = get_capital_label(claims)
-
                 # Image file name (P18)
                 image_url = ""
                 image_url = get_flag_image_from_claims(claims)
+               
 
                 # Wikipedia title
                 wikipedia_title = sitelinks.get("enwiki", {}).get("title", "")
